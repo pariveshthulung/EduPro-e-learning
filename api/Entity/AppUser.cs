@@ -2,7 +2,7 @@
 
 namespace api;
 
-public class User
+public class AppUser
 {
     public long ID { get; set; }
     public string? Name { get; set; }

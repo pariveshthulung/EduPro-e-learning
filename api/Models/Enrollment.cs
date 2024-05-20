@@ -7,7 +7,7 @@ public class Enrollment
     public long ID { get; set; }
     public long StudentID { get; set; }
     [ForeignKey("StudentID")]
-    public virtual User? User { get; set; } // Students
+    public virtual AppUser? User { get; set; } // Students
     public long CourseID { get; set; }
     [ForeignKey("CourseID")]
     public virtual Course? Course { get; set; }

@@ -10,7 +10,7 @@ public class Course
     public decimal Price { get; set; }
     public long TeacherID { get; set; }
     [ForeignKey("TeacherID")]
-    public virtual User? User { get; set; } // Teacher
+    public virtual AppUser? User { get; set; } // Teacher
     public long NumberOfEnrollement { get; set; }
     public DateTime LastUpdated { get; set; } = DateTime.Now;
 
