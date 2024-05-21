@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 
-namespace api;
+namespace api.Model;
 
 public class CourseCategory
 {

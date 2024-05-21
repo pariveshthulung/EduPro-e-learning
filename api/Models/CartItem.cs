@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 
-namespace api;
+namespace api.Model;
 
 public class CartItem
 {
@@ -8,7 +8,7 @@ public class CartItem
     public long CartID { get; set; }
     [ForeignKey("CartID")]
     public virtual Cart? Cart { get; set; }
-    public long CourseID { get; set; }
+    public long? CourseID { get; set; }
     [ForeignKey("CourseID")]
     public virtual Course? Course { get; set; }
     public bool IsChecked { get; set; }

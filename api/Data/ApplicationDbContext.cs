@@ -1,6 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using api.Entity;
+using api.Model;
+using Microsoft.EntityFrameworkCore;
 
-namespace api;
+namespace api.Data;
 
 public class ApplicationDbContext : DbContext
 {
@@ -10,6 +12,8 @@ public class ApplicationDbContext : DbContext
     }
 
     public DbSet<AppUser> AppUsers { get; set; }
+    public DbSet<Course> Courses { get; set; }
+
     public DbSet<Cart> Carts { get; set; }
     public DbSet<CartItem> CartItems { get; set; }
     public DbSet<Category> Categories { get; set; }

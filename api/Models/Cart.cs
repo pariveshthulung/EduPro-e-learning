@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
+using api.Entity;
 
-namespace api;
+namespace api.Model;
 
 public class Cart
 {

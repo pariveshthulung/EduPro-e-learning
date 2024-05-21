@@ -1,9 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using api.Constant;
 
-namespace api.Entity;
+namespace api.DTO.AppUser;
 
-public class AppUser
+public class AppUserDto
 {
     public long ID { get; set; }
     public string? Name { get; set; }
@@ -14,5 +14,4 @@ public class AppUser
     public string? UserType { get; set; } = UserTypeConstant.Student;
     public string? UserStatus { get; set; } = UserStatusConstant.Active;
     public DateTime CreatedDate { get; set; } = DateTime.Now;
-
 }

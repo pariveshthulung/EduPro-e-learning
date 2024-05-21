@@ -1,4 +1,4 @@
-﻿namespace api;
+﻿namespace api.Constant;
 
 public class UserStatusConstant
 {

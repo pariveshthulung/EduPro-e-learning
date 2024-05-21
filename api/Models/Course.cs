@@ -1,12 +1,14 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
+using api.Entity;
 
-namespace api;
+namespace api.Model;
 
 public class Course
 {
     public long ID { get; set; }
     public string? Name { get; set; }
     public string? Description { get; set; }
+    [Column(TypeName = "decimal(18,2)")]
     public decimal Price { get; set; }
     public long TeacherID { get; set; }
     [ForeignKey("TeacherID")]

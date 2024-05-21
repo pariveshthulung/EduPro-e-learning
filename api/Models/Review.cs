@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
+using api.Entity;
 
-namespace api;
+namespace api.Model;
 
 public class Review
 {
@@ -12,7 +13,7 @@ public class Review
     public long StudentID { get; set; }
     [ForeignKey("StudentID")]
     public virtual AppUser? User { get; set; } // Student
-    public int CourseID { get; set; }
+    public long? CourseID { get; set; }
     [ForeignKey("CourseID")]
     public virtual Course? Course { get; set; }
 }
