@@ -5,7 +5,6 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using api;
 using api.Data;
 
 #nullable disable
@@ -13,8 +12,8 @@ using api.Data;
 namespace api.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240520141340_inital_migration")]
-    partial class inital_migration
+    [Migration("20240522043310_initial")]
+    partial class initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -26,41 +25,205 @@ namespace api.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("api.AppUser", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
-                    b.Property<long>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("ID"));
-
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Email")
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("NormalizedName")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NormalizedName")
+                        .IsUnique()
+                        .HasDatabaseName("RoleNameIndex")
+                        .HasFilter("[NormalizedName] IS NOT NULL");
+
+                    b.ToTable("AspNetRoles", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("ClaimType")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ClaimValue")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("RoleId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("AspNetRoleClaims", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("ClaimType")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ClaimValue")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("AspNetUserClaims", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
+                {
+                    b.Property<string>("LoginProvider")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("ProviderKey")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("ProviderDisplayName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("LoginProvider", "ProviderKey");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("AspNetUserLogins", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
+                {
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("RoleId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("UserId", "RoleId");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("AspNetUserRoles", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
+                {
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("LoginProvider")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Value")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("UserId", "LoginProvider", "Name");
+
+                    b.ToTable("AspNetUserTokens", (string)null);
+                });
+
+            modelBuilder.Entity("api.Entity.AppUser", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("AccessFailedCount")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Email")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<bool>("EmailConfirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("LockoutEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTimeOffset?>("LockoutEnd")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("NormalizedEmail")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("NormalizedUserName")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
 
                     b.Property<string>("PasswordHash")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<long>("PhoneNo")
-                        .HasColumnType("bigint");
-
-                    b.Property<string>("UserStatus")
+                    b.Property<string>("PhoneNumber")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("UserType")
+                    b.Property<bool>("PhoneNumberConfirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("ID");
+                    b.Property<bool>("TwoFactorEnabled")
+                        .HasColumnType("bit");
 
-                    b.ToTable("AppUsers");
+                    b.Property<string>("UserName")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NormalizedEmail")
+                        .HasDatabaseName("EmailIndex");
+
+                    b.HasIndex("NormalizedUserName")
+                        .IsUnique()
+                        .HasDatabaseName("UserNameIndex")
+                        .HasFilter("[NormalizedUserName] IS NOT NULL");
+
+                    b.ToTable("AspNetUsers", (string)null);
                 });
 
-            modelBuilder.Entity("api.Cart", b =>
+            modelBuilder.Entity("api.Model.Cart", b =>
                 {
                     b.Property<long>("ID")
                         .ValueGeneratedOnAdd()
@@ -71,8 +234,9 @@ namespace api.Migrations
                     b.Property<string>("CartStatus")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<long>("StudentID")
-                        .HasColumnType("bigint");
+                    b.Property<string>("StudentID")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("ID");
 
@@ -81,7 +245,7 @@ namespace api.Migrations
                     b.ToTable("Carts");
                 });
 
-            modelBuilder.Entity("api.CartItem", b =>
+            modelBuilder.Entity("api.Model.CartItem", b =>
                 {
                     b.Property<long>("ID")
                         .ValueGeneratedOnAdd()
@@ -107,7 +271,7 @@ namespace api.Migrations
                     b.ToTable("CartItems");
                 });
 
-            modelBuilder.Entity("api.Category", b =>
+            modelBuilder.Entity("api.Model.Category", b =>
                 {
                     b.Property<long>("ID")
                         .ValueGeneratedOnAdd()
@@ -123,7 +287,7 @@ namespace api.Migrations
                     b.ToTable("Categories");
                 });
 
-            modelBuilder.Entity("api.Course", b =>
+            modelBuilder.Entity("api.Model.Course", b =>
                 {
                     b.Property<long>("ID")
                         .ValueGeneratedOnAdd()
@@ -146,8 +310,9 @@ namespace api.Migrations
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<long>("TeacherID")
-                        .HasColumnType("bigint");
+                    b.Property<string>("TeacherID")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("ID");
 
@@ -156,7 +321,7 @@ namespace api.Migrations
                     b.ToTable("Courses");
                 });
 
-            modelBuilder.Entity("api.CourseCategory", b =>
+            modelBuilder.Entity("api.Model.CourseCategory", b =>
                 {
                     b.Property<long>("ID")
                         .ValueGeneratedOnAdd()
@@ -179,7 +344,7 @@ namespace api.Migrations
                     b.ToTable("CourseCategories");
                 });
 
-            modelBuilder.Entity("api.Enrollment", b =>
+            modelBuilder.Entity("api.Model.Enrollment", b =>
                 {
                     b.Property<long>("ID")
                         .ValueGeneratedOnAdd()
@@ -196,8 +361,9 @@ namespace api.Migrations
                     b.Property<DateTime>("EnrollmentDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<long>("StudentID")
-                        .HasColumnType("bigint");
+                    b.Property<string>("StudentID")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("ID");
 
@@ -208,7 +374,7 @@ namespace api.Migrations
                     b.ToTable("Enrollments");
                 });
 
-            modelBuilder.Entity("api.Lesson", b =>
+            modelBuilder.Entity("api.Model.Lesson", b =>
                 {
                     b.Property<long>("ID")
                         .ValueGeneratedOnAdd()
@@ -238,7 +404,7 @@ namespace api.Migrations
                     b.ToTable("Lessons");
                 });
 
-            modelBuilder.Entity("api.Module", b =>
+            modelBuilder.Entity("api.Model.Module", b =>
                 {
                     b.Property<long>("ID")
                         .ValueGeneratedOnAdd()
@@ -265,7 +431,7 @@ namespace api.Migrations
                     b.ToTable("Modules");
                 });
 
-            modelBuilder.Entity("api.Review", b =>
+            modelBuilder.Entity("api.Model.Review", b =>
                 {
                     b.Property<long>("ID")
                         .ValueGeneratedOnAdd()
@@ -285,8 +451,9 @@ namespace api.Migrations
                     b.Property<DateTime>("ReviewDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<long>("StudentID")
-                        .HasColumnType("bigint");
+                    b.Property<string>("StudentID")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("ID");
 
@@ -297,7 +464,7 @@ namespace api.Migrations
                     b.ToTable("Reviews");
                 });
 
-            modelBuilder.Entity("api.Wishlist", b =>
+            modelBuilder.Entity("api.Model.Wishlist", b =>
                 {
                     b.Property<long>("ID")
                         .ValueGeneratedOnAdd()
@@ -318,9 +485,60 @@ namespace api.Migrations
                     b.ToTable("Wishlists");
                 });
 
-            modelBuilder.Entity("api.Cart", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
-                    b.HasOne("api.AppUser", "User")
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
+                {
+                    b.HasOne("api.Entity.AppUser", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
+                {
+                    b.HasOne("api.Entity.AppUser", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
+                {
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("api.Entity.AppUser", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
+                {
+                    b.HasOne("api.Entity.AppUser", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("api.Model.Cart", b =>
+                {
+                    b.HasOne("api.Entity.AppUser", "User")
                         .WithMany()
                         .HasForeignKey("StudentID")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -329,15 +547,15 @@ namespace api.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("api.CartItem", b =>
+            modelBuilder.Entity("api.Model.CartItem", b =>
                 {
-                    b.HasOne("api.Cart", "Cart")
+                    b.HasOne("api.Model.Cart", "Cart")
                         .WithMany()
                         .HasForeignKey("CartID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("api.Course", "Course")
+                    b.HasOne("api.Model.Course", "Course")
                         .WithMany()
                         .HasForeignKey("CourseID");
 
@@ -346,9 +564,9 @@ namespace api.Migrations
                     b.Navigation("Course");
                 });
 
-            modelBuilder.Entity("api.Course", b =>
+            modelBuilder.Entity("api.Model.Course", b =>
                 {
-                    b.HasOne("api.AppUser", "User")
+                    b.HasOne("api.Entity.AppUser", "User")
                         .WithMany()
                         .HasForeignKey("TeacherID")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -357,15 +575,15 @@ namespace api.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("api.CourseCategory", b =>
+            modelBuilder.Entity("api.Model.CourseCategory", b =>
                 {
-                    b.HasOne("api.Category", "Category")
+                    b.HasOne("api.Model.Category", "Category")
                         .WithMany()
                         .HasForeignKey("CategoryID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("api.Course", "Course")
+                    b.HasOne("api.Model.Course", "Course")
                         .WithMany("CourseCategories")
                         .HasForeignKey("CourseID")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -376,13 +594,13 @@ namespace api.Migrations
                     b.Navigation("Course");
                 });
 
-            modelBuilder.Entity("api.Enrollment", b =>
+            modelBuilder.Entity("api.Model.Enrollment", b =>
                 {
-                    b.HasOne("api.Course", "Course")
+                    b.HasOne("api.Model.Course", "Course")
                         .WithMany()
                         .HasForeignKey("CourseID");
 
-                    b.HasOne("api.AppUser", "User")
+                    b.HasOne("api.Entity.AppUser", "User")
                         .WithMany()
                         .HasForeignKey("StudentID")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -393,9 +611,9 @@ namespace api.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("api.Lesson", b =>
+            modelBuilder.Entity("api.Model.Lesson", b =>
                 {
-                    b.HasOne("api.Module", "Module")
+                    b.HasOne("api.Model.Module", "Module")
                         .WithMany()
                         .HasForeignKey("ModuleID")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -404,22 +622,22 @@ namespace api.Migrations
                     b.Navigation("Module");
                 });
 
-            modelBuilder.Entity("api.Module", b =>
+            modelBuilder.Entity("api.Model.Module", b =>
                 {
-                    b.HasOne("api.Course", "Course")
+                    b.HasOne("api.Model.Course", "Course")
                         .WithMany()
                         .HasForeignKey("CouseID");
 
                     b.Navigation("Course");
                 });
 
-            modelBuilder.Entity("api.Review", b =>
+            modelBuilder.Entity("api.Model.Review", b =>
                 {
-                    b.HasOne("api.Course", "Course")
+                    b.HasOne("api.Model.Course", "Course")
                         .WithMany()
                         .HasForeignKey("CourseID");
 
-                    b.HasOne("api.AppUser", "User")
+                    b.HasOne("api.Entity.AppUser", "User")
                         .WithMany()
                         .HasForeignKey("StudentID")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -430,16 +648,16 @@ namespace api.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("api.Wishlist", b =>
+            modelBuilder.Entity("api.Model.Wishlist", b =>
                 {
-                    b.HasOne("api.Course", "Course")
+                    b.HasOne("api.Model.Course", "Course")
                         .WithMany()
                         .HasForeignKey("CourseID");
 
                     b.Navigation("Course");
                 });
 
-            modelBuilder.Entity("api.Course", b =>
+            modelBuilder.Entity("api.Model.Course", b =>
                 {
                     b.Navigation("CourseCategories");
                 });

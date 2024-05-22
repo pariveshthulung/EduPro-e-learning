@@ -6,7 +6,7 @@ namespace api.Model;
 public class Enrollment
 {
     public long ID { get; set; }
-    public long StudentID { get; set; }
+    public string StudentID { get; set; }
     [ForeignKey("StudentID")]
     public virtual AppUser? User { get; set; } // Students
     public long? CourseID { get; set; }

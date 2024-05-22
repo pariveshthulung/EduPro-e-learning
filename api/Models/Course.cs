@@ -10,7 +10,7 @@ public class Course
     public string? Description { get; set; }
     [Column(TypeName = "decimal(18,2)")]
     public decimal Price { get; set; }
-    public long TeacherID { get; set; }
+    public string TeacherID { get; set; }
     [ForeignKey("TeacherID")]
     public virtual AppUser? User { get; set; } // Teacher
     public long NumberOfEnrollement { get; set; }

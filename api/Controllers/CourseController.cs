@@ -1,43 +1,56 @@
 ﻿using api.Data;
 using api.DTO.Course;
+using api.Entity;
+using api.Extentions;
+using api.Helper;
+using api.Interface;
 using api.Mapper;
+using api.Repository;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace api.Controller;
 
-[Route("api/stock")]
+[Route("api/course")]
 [ApiController]
 public class CourseController : ControllerBase
 {
-    private readonly ApplicationDbContext _context;
-    public CourseController(ApplicationDbContext context)
+
+    private readonly ICourseRepository _courseRepo;
+    private readonly UserManager<AppUser> _userManager;
+    public CourseController(UserManager<AppUser> userManager, ICourseRepository courseRepo)
     {
-        _context = context;
+        _courseRepo = courseRepo;
+        _userManager = userManager;
     }
     [HttpGet]
-    public IActionResult GetAll()
+    [Authorize]
+    public async Task<IActionResult> GetAll([FromQuery] QueryObject query)
     {
-        var course = _context.Courses.ToList().Select(x => x.ToCourseDto());
-        return Ok(course);
+        var user = User.GetUsername(); // User is an object of controllerbase and GetUsername() is an claim extentions method
+        var course = await _courseRepo.GetAllAsync(query);
+        var courseDTO = course.Select(x => x.ToCourseDto());
+        return Ok(courseDTO);
     }
 
     [HttpGet("{ID:long}")]
-    public IActionResult GetById([FromRoute] long ID)
+    public async Task<IActionResult> GetById([FromRoute] long ID)
     {
-        var Course = _context.Courses.Find(ID);
-        if (Course == null)
+        var course = await _courseRepo.GetByIdAsync(ID);
+        if (course == null)
         {
             return NotFound();
         }
-        return Ok(Course.ToCourseDto());
+        return Ok(course.ToCourseDto());
     }
 
     [HttpPost]
-    public IActionResult AddCourse([FromBody] CreateCourseRequestDto courseDTO)
+    public async Task<IActionResult> AddCourse([FromBody] CreateCourseRequestDto courseDTO)
     {
         var course = courseDTO.ToCourseFromCourseDto();
-        _context.Courses.Add(course);
-        _context.SaveChanges();
+
+        await _courseRepo.AddAsync(course);
         return CreatedAtAction(nameof(GetById), new { course.ID }, course.ToCourseDto());
         /**                             |               |                   |
                                 goto GetById controller |              return type
@@ -45,5 +58,23 @@ public class CourseController : ControllerBase
         **/
     }
 
+    [HttpPut("{ID}")]
+    // [Route("ID")]
+    public async Task<IActionResult> Update([FromRoute] long ID, [FromBody] UpdateCourseRequestDto updateDto)
+    {
+        var course = await _courseRepo.UpdateAsync(ID, updateDto);
+        if (course == null) return NotFound();
+
+        return Ok(course.ToCourseDto());
+    }
+
+    [HttpDelete]
+    [Route("ID")]
+    public async Task<IActionResult> Delete([FromRoute] long ID)
+    {
+        var course = await _courseRepo.GetByIdAsync(ID);
+        if (course == null) return NotFound();
+        return NoContent();
+    }
 
 }

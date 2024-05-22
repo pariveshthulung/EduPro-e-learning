@@ -10,7 +10,7 @@ public class Review
     public string? Comment { get; set; }
     public DateTime ReviewDate { get; set; }
 
-    public long StudentID { get; set; }
+    public string StudentID { get; set; }
     [ForeignKey("StudentID")]
     public virtual AppUser? User { get; set; } // Student
     public long? CourseID { get; set; }
