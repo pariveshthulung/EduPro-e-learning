@@ -25,10 +25,10 @@ public class CourseController : ControllerBase
         _userManager = userManager;
     }
     [HttpGet]
-    [Authorize]
     public async Task<IActionResult> GetAll([FromQuery] QueryObject query)
     {
         var user = User.GetUsername(); // User is an object of controllerbase and GetUsername() is an claim extentions method
+        var currentUser = await _userManager.FindByNameAsync(user);
         var course = await _courseRepo.GetAllAsync(query);
         var courseDTO = course.Select(x => x.ToCourseDto());
         return Ok(courseDTO);

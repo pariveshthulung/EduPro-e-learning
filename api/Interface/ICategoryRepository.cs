@@ -1,15 +1,14 @@
-﻿using api.Model;
+﻿using api.DTO.Category;
+using api.Model;
 
 namespace api.Interface;
 
 public interface ICategoryRepository
 {
-    Task<Category> GetAllAsync();
-    Task<Category?> GetByIdAsync();
-    Task<Category> AddAsync();
-    Task<Category?> Update();
-    Task<Category?> Delete();
-
-
+    Task<List<Category>> GetAllAsync();
+    Task<Category?> GetByIdAsync(long ID);
+    Task<Category> AddAsync(CreateCategoryRequestDto categoryDto);
+    Task<Category?> UpdateAsync(long ID, UpdateCategoryRequestDto dto);
+    Task<Category?> Delete(long ID);
 
 }
