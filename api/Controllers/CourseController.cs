@@ -29,6 +29,7 @@ public class CourseController : ControllerBase
     {
         var user = User.GetUsername(); // User is an object of controllerbase and GetUsername() is an claim extentions method
         var currentUser = await _userManager.FindByNameAsync(user);
+
         var course = await _courseRepo.GetAllAsync(query);
         var courseDTO = course.Select(x => x.ToCourseDto());
         return Ok(courseDTO);
@@ -72,7 +73,7 @@ public class CourseController : ControllerBase
     [Route("ID")]
     public async Task<IActionResult> Delete([FromRoute] long ID)
     {
-        var course = await _courseRepo.GetByIdAsync(ID);
+        var course = await _courseRepo.Delete(ID);
         if (course == null) return NotFound();
         return NoContent();
     }

@@ -1,3 +1,11 @@
+/Users/parivesh.rai/Desktop/EduPro/api/obj/Debug/net8.0/api.csproj.AssemblyReference.cache
+/Users/parivesh.rai/Desktop/EduPro/api/obj/Debug/net8.0/api.GeneratedMSBuildEditorConfig.editorconfig
+/Users/parivesh.rai/Desktop/EduPro/api/obj/Debug/net8.0/api.AssemblyInfoInputs.cache
+/Users/parivesh.rai/Desktop/EduPro/api/obj/Debug/net8.0/api.AssemblyInfo.cs
+/Users/parivesh.rai/Desktop/EduPro/api/obj/Debug/net8.0/api.csproj.CoreCompileInputs.cache
+/Users/parivesh.rai/Desktop/EduPro/api/obj/Debug/net8.0/api.MvcApplicationPartsAssemblyInfo.cs
+/Users/parivesh.rai/Desktop/EduPro/api/obj/Debug/net8.0/api.MvcApplicationPartsAssemblyInfo.cache
+/Users/parivesh.rai/Desktop/EduPro/api/obj/Debug/net8.0/api.sourcelink.json
 /Users/parivesh.rai/Desktop/EduPro/api/bin/Debug/net8.0/appsettings.Development.json
 /Users/parivesh.rai/Desktop/EduPro/api/bin/Debug/net8.0/appsettings.json
 /Users/parivesh.rai/Desktop/EduPro/api/bin/Debug/net8.0/api
@@ -126,14 +134,6 @@
 /Users/parivesh.rai/Desktop/EduPro/api/bin/Debug/net8.0/runtimes/win/lib/net6.0/System.Runtime.Caching.dll
 /Users/parivesh.rai/Desktop/EduPro/api/bin/Debug/net8.0/runtimes/win/lib/net6.0/System.Security.Cryptography.ProtectedData.dll
 /Users/parivesh.rai/Desktop/EduPro/api/bin/Debug/net8.0/runtimes/win/lib/net6.0/System.Windows.Extensions.dll
-/Users/parivesh.rai/Desktop/EduPro/api/obj/Debug/net8.0/api.csproj.AssemblyReference.cache
-/Users/parivesh.rai/Desktop/EduPro/api/obj/Debug/net8.0/api.GeneratedMSBuildEditorConfig.editorconfig
-/Users/parivesh.rai/Desktop/EduPro/api/obj/Debug/net8.0/api.AssemblyInfoInputs.cache
-/Users/parivesh.rai/Desktop/EduPro/api/obj/Debug/net8.0/api.AssemblyInfo.cs
-/Users/parivesh.rai/Desktop/EduPro/api/obj/Debug/net8.0/api.csproj.CoreCompileInputs.cache
-/Users/parivesh.rai/Desktop/EduPro/api/obj/Debug/net8.0/api.MvcApplicationPartsAssemblyInfo.cs
-/Users/parivesh.rai/Desktop/EduPro/api/obj/Debug/net8.0/api.MvcApplicationPartsAssemblyInfo.cache
-/Users/parivesh.rai/Desktop/EduPro/api/obj/Debug/net8.0/api.sourcelink.json
 /Users/parivesh.rai/Desktop/EduPro/api/obj/Debug/net8.0/staticwebassets.build.json
 /Users/parivesh.rai/Desktop/EduPro/api/obj/Debug/net8.0/staticwebassets.development.json
 /Users/parivesh.rai/Desktop/EduPro/api/obj/Debug/net8.0/staticwebassets/msbuild.api.Microsoft.AspNetCore.StaticWebAssets.props

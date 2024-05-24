@@ -13,6 +13,6 @@ public class Enrollment
     [ForeignKey("CourseID")]
     public virtual Course? Course { get; set; }
 
-    public DateTime EnrollmentDate { get; set; }
+    public DateTime EnrollmentDate { get; set; } = DateTime.Now;
     public DateTime CompletedDate { get; set; }
 }
