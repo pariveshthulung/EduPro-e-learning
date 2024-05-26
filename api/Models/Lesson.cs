@@ -1,7 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.EntityFrameworkCore;
 
 namespace api.Model;
 
+[Index(nameof(Order), IsUnique = true)]
 public class Lesson
 {
     public long ID { get; set; }

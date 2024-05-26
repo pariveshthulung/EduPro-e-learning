@@ -43,7 +43,6 @@ public class EnrollmentController : ControllerBase
         await _enrollmentRepo.UpdateAsync(ID, dto.ToUpdateEnrollmentDto());
         return Ok(dto);
     }
-
     [HttpDelete("{ID:long}")]
     public async Task<IActionResult> Delete([FromRoute] long ID)
     {
