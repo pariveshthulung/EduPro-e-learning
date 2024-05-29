@@ -24,6 +24,7 @@ public static class CourseMapper
             Name = courseDTO.Name,
             Description = courseDTO.Description,
             Price = courseDTO.Price,
+            
         };
     }
 }
