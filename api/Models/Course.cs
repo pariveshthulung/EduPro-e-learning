@@ -16,6 +16,4 @@ public class Course
     public long NumberOfEnrollement { get; set; }
     public DateTime LastUpdated { get; set; } = DateTime.Now;
     public List<CourseCategory>? CourseCategories { get; set; }
-
-
 }

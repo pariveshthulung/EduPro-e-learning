@@ -31,15 +31,16 @@ public class EnrollmentRepository : IEnrollmentRepository
         return Enrollment;
     }
 
-    public async Task<List<Course>?> GetUserCourses(string ID)
+    public async Task<List<Course>?> GetUserCoursesAsync(string ID)
     {
-        return await _context.Enrollments.Where(x => x.StudentID == ID).Include(x => x.Course).Select(course => new Course
+        return await _context.Enrollments.Where(x => x.StudentID == ID).Include(x => x.Course).ThenInclude(y => y.CourseCategories).Select(course => new Course
         {
             ID = course.ID,
             Name = course.Course.Name,
             Description = course.Course.Description,
             Price = course.Course.Price,
             NumberOfEnrollement = course.Course.NumberOfEnrollement,
+            CourseCategories = course.Course.CourseCategories,
 
         }).ToListAsync();
         // return await _context.Portfolios.Where(u => u.AppUserId == user.Id)

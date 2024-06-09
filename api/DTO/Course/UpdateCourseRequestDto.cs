@@ -8,4 +8,6 @@ public class UpdateCourseRequestDto
     public string? Description { get; set; }
     [Column(TypeName = "decimal(18,2)")]
     public decimal Price { get; set; }
+    public List<long>? CategoryID { get; set; }
+
 }

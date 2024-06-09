@@ -1,11 +1,13 @@
 ﻿using api.DTO.Module;
 using api.Mapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace api.Controller;
 
 [ApiController]
-[Route("api/controller")]
+[Route("api/module")]
+[Authorize]
 public class ModuleController : ControllerBase
 {
     private readonly IModuleRepository _moduleRepo;

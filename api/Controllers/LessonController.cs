@@ -2,12 +2,14 @@
 using api.Interface;
 using api.Mapper;
 using api.Model;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace api.Controller;
 
 [ApiController]
 [Route("api/lesson")]
+[Authorize]
 public class LessonController : ControllerBase
 {
     private readonly ILessonRepository _lessonRepo;

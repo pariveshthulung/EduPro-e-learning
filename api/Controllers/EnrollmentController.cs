@@ -3,6 +3,7 @@ using api.Entity;
 using api.Extentions;
 using api.Interface;
 using api.Mapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,6 +11,7 @@ namespace api.Controller;
 
 [ApiController]
 [Route("api/enrollment")]
+[Authorize]
 public class EnrollmentController : ControllerBase
 {
     private readonly IEnrollmentRepository _enrollmentRepo;
@@ -20,15 +22,23 @@ public class EnrollmentController : ControllerBase
         _enrollmentRepo = enrollmentRepository;
         _userManager = userManager;
     }
+    [HttpGet]
+    public async Task<IActionResult> GetAll()
+    {
+        var userId = _userManager.GetUserId(User);
+        if (userId == null) return NotFound("user not login");
+        var courses = await _enrollmentRepo.GetUserCoursesAsync(userId);
+        if (courses == null) return NotFound();
+        return Ok(courses.Select(x => x.ToCourseDto()));
+    }
 
     [HttpPost]
+    [Route("getEnrolled")]
     public async Task<IActionResult> Add([FromBody] CreateEnrollmentRequestDto dto)
     {
-        var username = User.GetUsername();
-        var user = await _userManager.FindByNameAsync(username);
-        dto.StudentID = user.Id;
+        dto.StudentID = _userManager.GetUserId(User);
         var isExist = await _enrollmentRepo.DoesExist(dto.CourseID, dto.StudentID);
-        if (!isExist) return BadRequest("Cant add same courses!!");
+        if (isExist) return BadRequest("Cant add same courses!!");
         await _enrollmentRepo.AddAsync(dto.ToCreateEnrollmentDto());
         return Ok(dto);
     }

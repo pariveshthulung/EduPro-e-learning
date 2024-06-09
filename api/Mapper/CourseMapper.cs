@@ -14,6 +14,9 @@ public static class CourseMapper
             Description = course.Description,
             Price = course.Price,
             NumberOfEnrollement = course.NumberOfEnrollement,
+            TeacherID = course.TeacherID,
+            CourseCategories = course.CourseCategories.Where(x => x.CourseID == course.ID).ToList(),
+
         };
     }
 
@@ -24,7 +27,8 @@ public static class CourseMapper
             Name = courseDTO.Name,
             Description = courseDTO.Description,
             Price = courseDTO.Price,
-            
+            TeacherID = courseDTO.TeacherID,
+
         };
     }
 }

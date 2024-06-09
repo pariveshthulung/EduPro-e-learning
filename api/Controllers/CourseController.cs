@@ -18,17 +18,21 @@ public class CourseController : ControllerBase
 {
 
     private readonly ICourseRepository _courseRepo;
+    private readonly ICourseCategoryRepository _courseCategoryRepo;
     private readonly UserManager<AppUser> _userManager;
-    public CourseController(UserManager<AppUser> userManager, ICourseRepository courseRepo)
+    public CourseController(UserManager<AppUser> userManager, ICourseRepository courseRepo, ICourseCategoryRepository courseCategoryRepository)
     {
         _courseRepo = courseRepo;
+        _courseCategoryRepo = courseCategoryRepository;
         _userManager = userManager;
     }
     [HttpGet]
     public async Task<IActionResult> GetAll([FromQuery] QueryObject query)
     {
-        var user = User.GetUsername(); // User is an object of controllerbase and GetUsername() is an claim extentions method
-        var currentUser = await _userManager.FindByNameAsync(user);
+        // var user = User.GetUsername(); // User is an object of controllerbase and GetUsername() is an claim extentions method
+        //var currentUser = await _userManager.FindByNameAsync(user);
+
+        //var userId = _userManager.GetUserId(User);
 
         var course = await _courseRepo.GetAllAsync(query);
         var courseDTO = course.Select(x => x.ToCourseDto());
@@ -47,11 +51,15 @@ public class CourseController : ControllerBase
     }
 
     [HttpPost]
+    [Authorize]
     public async Task<IActionResult> AddCourse([FromBody] CreateCourseRequestDto courseDTO)
     {
+        var userId = _userManager.GetUserId(User);
+        courseDTO.TeacherID = userId;
+        var categoryIDs = courseDTO.CategoryID;
         var course = courseDTO.ToCourseFromCourseDto();
-
         await _courseRepo.AddAsync(course);
+        await _courseCategoryRepo.AddAsync(course.ID, categoryIDs);
         return CreatedAtAction(nameof(GetById), new { course.ID }, course.ToCourseDto());
         /**                             |               |                   |
                                 goto GetById controller |              return type
@@ -60,6 +68,7 @@ public class CourseController : ControllerBase
     }
 
     [HttpPut("{ID}")]
+    [Authorize]
     // [Route("ID")]
     public async Task<IActionResult> Update([FromRoute] long ID, [FromBody] UpdateCourseRequestDto updateDto)
     {
@@ -71,6 +80,7 @@ public class CourseController : ControllerBase
 
     [HttpDelete]
     [Route("ID")]
+    [Authorize]
     public async Task<IActionResult> Delete([FromRoute] long ID)
     {
         var course = await _courseRepo.Delete(ID);

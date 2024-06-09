@@ -51,13 +51,13 @@ public class CourseRepository : ICourseRepository
             }
         }
         var skipNumber = (query.PageNumber - 1) * query.PageSize;
-        return await courses.Skip(skipNumber).Take(query.PageSize).ToListAsync();
+        return await courses.Skip(skipNumber).Take(query.PageSize).Include(x => x.CourseCategories).ThenInclude(x => x.Category).ToListAsync();
 
     }
 
     public async Task<Course?> GetByIdAsync(long id)
     {
-        var course = await _context.Courses.FirstOrDefaultAsync(c => c.ID == id);
+        var course = await _context.Courses.Include(x => x.CourseCategories).FirstOrDefaultAsync(c => c.ID == id);
         if (course == null) return null;
 
         return course;
@@ -66,7 +66,7 @@ public class CourseRepository : ICourseRepository
     public async Task<Course?> UpdateAsync(long id, UpdateCourseRequestDto updateDto)
     {
 
-        var course = await _context.Courses.FirstOrDefaultAsync(c => c.ID == id);
+        var course = await _context.Courses.Include(x => x.CourseCategories).FirstOrDefaultAsync(c => c.ID == id);
         if (course == null) return null;
 
         course.Name = updateDto.Name;
