@@ -148,3 +148,4 @@
 /Users/parivesh.rai/Desktop/EduPro/api/obj/Debug/net8.0/api.pdb
 /Users/parivesh.rai/Desktop/EduPro/api/obj/Debug/net8.0/api.genruntimeconfig.cache
 /Users/parivesh.rai/Desktop/EduPro/api/obj/Debug/net8.0/ref/api.dll
+/Users/parivesh.rai/Desktop/EduPro/api/bin/Debug/net8.0/LocalStorage.dll

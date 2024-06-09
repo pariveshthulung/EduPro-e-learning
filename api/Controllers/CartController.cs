@@ -18,4 +18,11 @@ public class CartController : ControllerBase
     {
         return Ok();
     }
+    [HttpPost]
+    [Route("CourseID:long")]
+    public async Task<IActionResult> Add([FromQuery] long CourseID)
+    {
+        await _cartRepo.AddAsync(CourseID);
+        return Ok();
+    }
 }

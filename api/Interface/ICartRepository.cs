@@ -6,6 +6,6 @@ namespace api.Interface;
 public interface ICartRepository
 {
     Task<List<Cart>> GetAllAsync();
-    Task<Cart> AddAsync(CreateCartRequestDto dto);
+    Task<Cart> AddAsync(long courseId);
     Task<Cart?> Delete(long ID);
 }
