@@ -22,7 +22,8 @@ public class CartController : ControllerBase
     [Route("CourseID:long")]
     public async Task<IActionResult> Add([FromQuery] long CourseID)
     {
-        await _cartRepo.AddAsync(CourseID);
-        return Ok();
+        if (!ModelState.IsValid) return BadRequest(ModelState);
+        var cartitem = await _cartRepo.AddAsync(CourseID);
+        return Ok(cartitem);
     }
 }

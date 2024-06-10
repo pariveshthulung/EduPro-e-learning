@@ -12,7 +12,6 @@ public static class CartMapper
         {
             ID = cart.ID,
             StudentID = cart.StudentID,
-            CourseID = cart.CourseID,
         };
     }
     public static Cart ToCreateCartRequestDto(this CreateCartRequestDto dto)
@@ -20,7 +19,6 @@ public static class CartMapper
         return new Cart
         {
             StudentID = dto.StudentID,
-            CourseID = dto.CourseID,
         };
     }
 }

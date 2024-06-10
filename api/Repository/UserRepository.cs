@@ -21,7 +21,8 @@ public class UserRepository : ControllerBase, IUserRepository
         // bool isloggedIn = IsloggedIn();
         // if (isloggedIn) return _userManager.GetUserId(User);
         // return "No login";
-        var userId = _httpContextAccessor.HttpContext?.User.FindFirstValue("NameId");
+        var userId = _httpContextAccessor.HttpContext?.User.Claims.Where(c => c.Type == ClaimTypes.NameIdentifier).First().Value;
+        // var newID = _userManager.GetUserId(_httpContextAccessor.HttpContext?.User);
         if (string.IsNullOrWhiteSpace(userId))
         {
             return null;
