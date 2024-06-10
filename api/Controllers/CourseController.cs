@@ -54,8 +54,6 @@ public class CourseController : ControllerBase
     [Authorize]
     public async Task<IActionResult> AddCourse([FromBody] CreateCourseRequestDto courseDTO)
     {
-        var userId = _userManager.GetUserId(User);
-        courseDTO.TeacherID = userId;
         var categoryIDs = courseDTO.CategoryID;
         var course = courseDTO.ToCourseFromCourseDto();
         await _courseRepo.AddAsync(course);
@@ -69,7 +67,6 @@ public class CourseController : ControllerBase
 
     [HttpPut("{ID}")]
     [Authorize]
-    // [Route("ID")]
     public async Task<IActionResult> Update([FromRoute] long ID, [FromBody] UpdateCourseRequestDto updateDto)
     {
         var course = await _courseRepo.UpdateAsync(ID, updateDto);
@@ -79,7 +76,7 @@ public class CourseController : ControllerBase
     }
 
     [HttpDelete]
-    [Route("ID")]
+    [Route("{ID}")]
     [Authorize]
     public async Task<IActionResult> Delete([FromRoute] long ID)
     {

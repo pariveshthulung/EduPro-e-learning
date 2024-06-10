@@ -13,14 +13,18 @@ namespace api.Repository;
 public class CourseRepository : ICourseRepository
 {
     private readonly ApplicationDbContext _context;
+    private readonly IUserRepository _userRepository;
 
-    public CourseRepository(ApplicationDbContext context)
+    public CourseRepository(ApplicationDbContext context, IUserRepository userRepository)
     {
         _context = context;
+        _userRepository = userRepository;
     }
 
     public async Task<Course> AddAsync(Course course)
     {
+        var userId = _userRepository.GetUserID();
+        course.TeacherID = userId;
         await _context.Courses.AddAsync(course);
         await _context.SaveChangesAsync();
         return course;
