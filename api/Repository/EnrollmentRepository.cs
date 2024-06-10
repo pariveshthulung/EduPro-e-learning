@@ -9,13 +9,19 @@ namespace api.Repository;
 public class EnrollmentRepository : IEnrollmentRepository
 {
     private readonly ApplicationDbContext _context;
+    private readonly IUserRepository _userRepository;
 
-    public EnrollmentRepository(ApplicationDbContext context)
+    public EnrollmentRepository(ApplicationDbContext context, IUserRepository userRepository)
     {
         _context = context;
+        _userRepository = userRepository;
     }
     public async Task<Enrollment?> AddAsync(Enrollment enrollment)
     {
+        var userId = _userRepository.GetUserID();
+        var isExist = await _context.Enrollments.AnyAsync(x => x.CourseID == enrollment.CourseID && x.StudentID == userId);
+
+        if (isExist) return null;
 
         await _context.Enrollments.AddAsync(enrollment);
         await _context.SaveChangesAsync();
@@ -50,14 +56,24 @@ public class EnrollmentRepository : IEnrollmentRepository
         throw new NotImplementedException();
     }
 
-    public Task<Enrollment?> UpdateAsync(long ID, Enrollment enrollment)
+    public async Task<Enrollment?> UpdateAsync(long ID, Enrollment enrollment)
     {
-        throw new NotImplementedException();
+        var enrollmentFromDb = await _context.Enrollments.Where(x => x.ID == ID).FirstOrDefaultAsync();
+        if (enrollmentFromDb == null) return null;
+
+        var userId = _userRepository.GetUserID();
+        enrollmentFromDb.StudentID = userId;
+        enrollmentFromDb.CourseID = enrollment.CourseID;
+
+        await _context.SaveChangesAsync();
+        return enrollment;
     }
 
-    public async Task<bool> DoesExist(long? CourseID, string StudentID)
+    public async Task<bool> DoesExist(long? CourseID)
     {
-        var studentCourse = await _context.Enrollments.Where(x => x.StudentID == StudentID).ToListAsync();
+        var userId = _userRepository.GetUserID();
+
+        var studentCourse = await _context.Enrollments.Where(x => x.StudentID == userId).ToListAsync();
         return studentCourse.Any(x => x.CourseID == CourseID);
     }
 

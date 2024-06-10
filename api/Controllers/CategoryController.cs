@@ -50,4 +50,12 @@ public class CategoryController : ControllerBase
         if (category == null) return NotFound();
         return Ok(category.ToCategoryDto());
     }
+
+    [HttpDelete("{Id}")]
+    public async Task<IActionResult> Delete([FromRoute] long Id)
+    {
+        var category = await _categoryRepo.Delete(Id);
+        if (category == null) return NotFound();
+        return NoContent();
+    }
 }

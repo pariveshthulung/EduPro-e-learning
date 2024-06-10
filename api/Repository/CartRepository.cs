@@ -48,6 +48,8 @@ public class CartRepository : ICartRepository
             }
             if (cartExist != null)
             {
+                var itemExist = await _context.CartItems.Where(x => x.CourseID == courseId).AnyAsync();
+                if (itemExist) return null;
                 var cartitem = new CreateCartItemRequestDto()
                 {
                     CourseID = courseId,
@@ -69,13 +71,14 @@ public class CartRepository : ICartRepository
         return new Cart();
     }
 
-    public async Task<CartItem?> Delete(long courseId)
+    public async Task<CartItem?> DeleteAsync(long courseId)
     {
         var currentUserId = _userRepository.GetUserID();
-        var cartId = _context.Carts.Where(x => x.StudentID == currentUserId).Select(x => x.ID).FirstOrDefault();
+        var cartId = await _context.Carts.Where(x => x.StudentID == currentUserId).Select(x => x.ID).FirstOrDefaultAsync();
         var cartItem = await _context.CartItems.Where(x => x.CartID == cartId && x.CourseID == courseId).FirstOrDefaultAsync();
         if (cartItem == null) return null;
         _context.CartItems.Remove(cartItem);
+        await _context.SaveChangesAsync();
         return cartItem;
     }
 

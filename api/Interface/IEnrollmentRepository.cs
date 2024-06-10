@@ -9,6 +9,6 @@ public interface IEnrollmentRepository
     Task<Enrollment?> AddAsync(Enrollment enrollment);
     Task<Enrollment?> UpdateAsync(long ID, Enrollment enrollment);
     Task<Enrollment?> Delete(long ID);
-    Task<bool> DoesExist(long? CourseID, string StudentID);
+    Task<bool> DoesExist(long? CourseID);
 
 }

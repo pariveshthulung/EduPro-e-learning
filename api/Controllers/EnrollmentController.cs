@@ -36,9 +36,7 @@ public class EnrollmentController : ControllerBase
     [Route("getEnrolled")]
     public async Task<IActionResult> Add([FromBody] CreateEnrollmentRequestDto dto)
     {
-        dto.StudentID = _userManager.GetUserId(User);
-        var isExist = await _enrollmentRepo.DoesExist(dto.CourseID, dto.StudentID);
-        if (isExist) return BadRequest("Cant add same courses!!");
+
         await _enrollmentRepo.AddAsync(dto.ToCreateEnrollmentDto());
         return Ok(dto);
     }
@@ -47,9 +45,6 @@ public class EnrollmentController : ControllerBase
     public async Task<IActionResult> Update([FromRoute] long ID, [FromBody] UpdateEnrollmentRequestDto dto)
     {
         // we dont need update in enrollment
-        var username = User.GetUsername();
-        var user = await _userManager.FindByNameAsync(username);
-        dto.StudentID = user.Id;
         await _enrollmentRepo.UpdateAsync(ID, dto.ToUpdateEnrollmentDto());
         return Ok(dto);
     }

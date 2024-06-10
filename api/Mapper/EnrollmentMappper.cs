@@ -18,7 +18,6 @@ public static class EnrollmentMappper
     {
         return new Enrollment
         {
-            StudentID = dto.StudentID,
             CourseID = dto.CourseID,
         };
     }
@@ -26,7 +25,6 @@ public static class EnrollmentMappper
     {
         return new Enrollment
         {
-            StudentID = dto.StudentID,
             CourseID = dto.CourseID,
         };
     }

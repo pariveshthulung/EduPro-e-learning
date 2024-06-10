@@ -32,9 +32,9 @@ public class CartController : ControllerBase
     }
     [HttpDelete]
     [Route("courseId:long")]
-    public IActionResult Delete([FromQuery] long courseId)
+    public async Task<IActionResult> Delete([FromQuery] long courseId)
     {
-        var cartItem = _cartRepo.Delete(courseId);
+        var cartItem = await _cartRepo.DeleteAsync(courseId);
         if (cartItem == null) return NotFound("No item");
         return NoContent();
     }
