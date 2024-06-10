@@ -1,4 +1,6 @@
 ﻿using api.Interface;
+using api.Mapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace api.Controller;
@@ -14,9 +16,11 @@ public class CartController : ControllerBase
     }
 
     [HttpGet]
-    public IActionResult GetAll()
+    [Authorize]
+    public async Task<IActionResult> GetAll()
     {
-        return Ok();
+        var cartItems = await _cartRepo.GetAllAsync();
+        return Ok(cartItems.Select(x => x.ToCartDto()));
     }
     [HttpPost]
     [Route("CourseID:long")]
@@ -24,6 +28,14 @@ public class CartController : ControllerBase
     {
         if (!ModelState.IsValid) return BadRequest(ModelState);
         var cartitem = await _cartRepo.AddAsync(CourseID);
-        return Ok(cartitem);
+        return Ok(cartitem.ToCartDto());
+    }
+    [HttpDelete]
+    [Route("courseId:long")]
+    public IActionResult Delete([FromQuery] long courseId)
+    {
+        var cartItem = _cartRepo.Delete(courseId);
+        if (cartItem == null) return NotFound("No item");
+        return NoContent();
     }
 }

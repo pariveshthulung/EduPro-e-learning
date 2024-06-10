@@ -6,14 +6,12 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace api.Repository;
 
-public class UserRepository : ControllerBase, IUserRepository
+public class UserRepository : IUserRepository
 {
-    private readonly UserManager<AppUser> _userManager;
     private IHttpContextAccessor _httpContextAccessor;
 
-    public UserRepository(UserManager<AppUser> userManager, IHttpContextAccessor httpContextAccessor)
+    public UserRepository(IHttpContextAccessor httpContextAccessor)
     {
-        _userManager = userManager;
         _httpContextAccessor = httpContextAccessor;
     }
     public string GetUserID()
@@ -32,9 +30,11 @@ public class UserRepository : ControllerBase, IUserRepository
 
     public string GetUserName()
     {
-        bool isloggedIn = IsloggedIn();
-        if (isloggedIn) return _userManager.GetUserName(User);
-        return "No login";
+        // var userId = GetUserID();
+        // if (userId==null) return null;
+        var username = _httpContextAccessor.HttpContext?.User.Claims.Where(c => c.Type == ClaimTypes.GivenName).First().Value;
+        if (username == null) return null;
+        return username;
 
     }
 

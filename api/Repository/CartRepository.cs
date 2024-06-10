@@ -69,17 +69,21 @@ public class CartRepository : ICartRepository
         return new Cart();
     }
 
-    public async Task<Cart?> Delete(long ID)
+    public async Task<CartItem?> Delete(long courseId)
     {
-        var cart = await _context.Carts.Where(x => x.ID == ID).FirstOrDefaultAsync();
-        if (cart == null) return null;
-        _context.Carts.Remove(cart);
-        return cart;
+        var currentUserId = _userRepository.GetUserID();
+        var cartId = _context.Carts.Where(x => x.StudentID == currentUserId).Select(x => x.ID).FirstOrDefault();
+        var cartItem = await _context.CartItems.Where(x => x.CartID == cartId && x.CourseID == courseId).FirstOrDefaultAsync();
+        if (cartItem == null) return null;
+        _context.CartItems.Remove(cartItem);
+        return cartItem;
     }
 
-    public Task<List<Cart>> GetAllAsync()
+    public async Task<List<CartItem>> GetAllAsync()
     {
-        throw new NotImplementedException();
+        var currentUserId = _userRepository.GetUserID();
+        var cartId = _context.Carts.Where(x => x.StudentID == currentUserId).Select(x => x.ID).FirstOrDefault();
+        return await _context.CartItems.Where(x => x.CartID == cartId).ToListAsync();
     }
 
 }
